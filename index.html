@@ -34,11 +34,15 @@
         if (res.ok) console.log('monitor is: ', res);
         else console.log('res: ', res);
       });
-
-    });
     engine.once("upgrade", () => {
     // called when the transport is upgraded (i.e. from HTTP long-polling to WebSocket)
     console.log(engine.transport.name); // in most cases, prints "websocket"
+    });
+
+    });
+    socket.emit('login', { nickname: 'outsideSpaceman', sub: 'github|900900', timezone: this.clientTimezone }, (res) => {
+      if (res.ok) console.log('login success: ', res.ok, ' token: ', res.token);
+      else console.log('res : ', res);
     });
 </script>
 </body>
