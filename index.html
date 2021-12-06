@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App</title>
+</head>
+<body>
+  <h1>App - connection from the space</h1>
+  <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
+  <script>
+    const socket = io("ws://apex.axioned.com:4000");
+    socket.on("connect", () => {
+      console.log('socket.io connected true: ',socket.connected); // true
+      const engine = socket.io.engine;
+      console.log(engine.transport.name); // in most cases, prints "polling"
+      socket.emit('login', { nickname: 'spaceman', sub: 'github|85858585', timezone: this.clientTimezone }, (res) => {
+        if (res.ok) console.log('login success: ', res.ok, ' token: ', res.token);
+        else console.log('res : ', res);
+      });
+      // Add Monitor event
+      socket.emit('addMonitor',
+      {
+        name: 'Fire from space',
+        url: 'http://firefromspace.com/',
+        type: 'keyword',
+        retryInterval: parseInt('60', 10),
+        maxretries: parseInt('0', 10),
+        keyword: 'helo',
+        acceptedStatuscodes: ['200-299'],
+      },
+      (res) => {
+        if (res.ok) console.log('monitor is: ', res);
+        else console.log('res: ', res);
+      });
+
+    });
+    engine.once("upgrade", () => {
+    // called when the transport is upgraded (i.e. from HTTP long-polling to WebSocket)
+    console.log(engine.transport.name); // in most cases, prints "websocket"
+    });
+</script>
+</body>
+</html>
