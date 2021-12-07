@@ -10,7 +10,7 @@
   <h1>App - connection from the space</h1>
   <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
   <script>
-    const socket = io("wss://apex.axioned.com:5000");
+    const socket = io("wss://apex.axioned.com:4000");
     console.log(`emitting event`);
     socket.on("connect", () => {
       console.log('inside the connect block');
